@@ -17,13 +17,17 @@ require("@tensorflow/tfjs-node");
 import SOCmodel from "./model.json";
 import fs from "fs";
 import csv from "csv-parser";
-import Overview from "./Overview";
+import Overview from "./pages/Overview";
+import Analysis from "./pages/Analysis";
+import getLineGraphData from "./modifyData/getLineGraphData"
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
+    this.state = { data: [], foundData:false };
   }
+  
   async componentDidMount() {
+    console.log("component did mount")
     try {
       const model = await tf.loadLayersModel(
         "file://" + __dirname + "/model.json"
@@ -38,22 +42,6 @@ export default class App extends React.Component {
         .pipe(csv())
         .on("data", data => results.push(data))
         .on("end", () => {
-          results = results.map(data => {
-            Object.keys(data).forEach(k => {
-              data[k] = Number(data[k]);
-              if(k==="day") {
-                data['x'] = data[k];
-                delete data[k];
-              } else if (k==="pH") {
-                data['y'] = data[k]
-                delete data[k];
-              }
-              
-            });
-            
-            // console.log(data)
-            return data;
-          });
           // results = results.map(data => [
           //   Number(data["pH"]),
           //   Number(data["clay"]),
@@ -74,7 +62,10 @@ export default class App extends React.Component {
           //   );
           // }
           this.setState({ data: results });
+          console.log("The data?!: ");
           console.log(this.state.data);
+          console.log(results);
+          this.setState({foundData: true})
         });
     } catch (error) {
       console.error(error);
@@ -82,18 +73,29 @@ export default class App extends React.Component {
   }
   // handleNavbarTabChange = (navbarTabId) => this.setState({ navbarTabId });
   render() {
-    return (
-      <div id="Layout" className="bottomRoot">
-        <Tabs>
-          <Tab
-            id="tab1"
-            title="tab1"
-            panel={<Overview data={this.state.data} />}
-          />
-          <Tab id="tab2" title="tab2" panel={<H1>Hello2</H1>} />
-          <Tab id="tab3" title="tab3" panel={<H1>Hello3</H1>} />
-        </Tabs>
-      </div>
-    );
+    if(this.state.foundData) {
+      getLineGraphData(this.state.data, "day", "pH")
+      return (
+        <div id="Layout" className="bottomRoot">
+          <Tabs>
+            {/* <Tab
+              id="tab1"
+              title="tab1"
+              panel={<Overview data={this.state.data} />}
+            /> */}
+            {/* <Tab
+              id="tab2"
+              title="tab2"
+              panel={<Analysis data={this.state.data} />}
+            /> */}
+            <Tab id="tab3" title="tab3" panel={<H1>Hello3</H1>} />
+          </Tabs>
+        </div>
+      );
+    } else {
+      return (<h1>loading</h1>);
+      
+    }
+    
   }
 }

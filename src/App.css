@@ -1,4 +1,29 @@
 .bottomRoot {
-    /* background-color: grey; */
+  
 }
 
+.container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.graphContainer {
+    justify-content: space-evenly;
+}
+.row {
+  display: flex;
+  flex-direction: crow;
+  
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.dataTable {
+    flex-grow: 1;
+}
+
+.dataGraph {
+    flex-grow: 1;
+}
