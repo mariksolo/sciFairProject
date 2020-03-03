@@ -1,4 +1,4 @@
-export default function getLineGraphData(results, xVariable, yVariable, size=false) {
+export default function getLineGraphData(results, xVariable, yVariable, size="") {
   
   let resultsCopy = JSON.parse(JSON.stringify(results));
   let d = resultsCopy.map(data => {
@@ -10,7 +10,7 @@ export default function getLineGraphData(results, xVariable, yVariable, size=fal
       } else if (k === yVariable) {
         data["y"] = data[k];
         delete data[k];
-      } else if (size && k===size) {
+      } else if (k===size) {
         data["size"] = data[k];
         delete data[k];
       }
@@ -19,6 +19,11 @@ export default function getLineGraphData(results, xVariable, yVariable, size=fal
     // console.log(data)
     return data;
   });
+  console.log("get line graph data")
+  console.log(xVariable);
+  console.log(yVariable);
+  console.log(size)
+  console.log(d);
   
   return d;
 }
