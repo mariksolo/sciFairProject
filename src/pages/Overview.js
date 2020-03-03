@@ -89,19 +89,19 @@ export default class Overview extends React.Component {
             </div>
             <div className="graphContainer">
               <div className="row">
-                {/* <TwoVarGraph data={this.props.data} xVar="day" yVar="pH" /> */}
+                <TwoVarGraph data={this.props.data} xVar="day" yVar="pH" />
 
                 <TwoVarGraph data={this.props.data} xVar="day" yVar="clay" />
-                {/* <TwoVarGraph data={this.props.data} xVar="day" yVar="ca_nh4" /> */}
+                <TwoVarGraph data={this.props.data} xVar="day" yVar="ca_nh4" />
               </div>
               <div className="row">
-                {/* <TwoVarGraph data={this.props.data} xVar="day" yVar="mg_nh4" />
+                <TwoVarGraph data={this.props.data} xVar="day" yVar="mg_nh4" />
                 <TwoVarGraph data={this.props.data} xVar="day" yVar="na_nh4" />
-                <TwoVarGraph data={this.props.data} xVar="day" yVar="k_nh4" /> */}
+                <TwoVarGraph data={this.props.data} xVar="day" yVar="k_nh4" />
               </div>
               <div className="row">
-                {/* <TwoVarGraph data={this.props.data} xVar="day" yVar="CECnh4" />
-                <TwoVarGraph data={this.props.data} xVar="day" yVar="CECsum" /> */}
+                <TwoVarGraph data={this.props.data} xVar="day" yVar="CECnh4" />
+                <TwoVarGraph data={this.props.data} xVar="day" yVar="CECsum" />
                 
               </div>
             </div>

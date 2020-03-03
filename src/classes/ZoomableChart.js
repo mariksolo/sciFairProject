@@ -10,7 +10,8 @@ import {
     MenuItem,
     Tab,
     Tabs,
-    H1
+    H1,
+    Spinner
   } from "@blueprintjs/core";
 
 import {
@@ -75,12 +76,13 @@ export default class ZoomableChart extends React.Component {
           </XYPlot>
         </div>
 
-        <button
-          className="showcase-button"
+        <Button
+          // className="showcase-button"
           onClick={() => this.setState({ lastDrawLocation: null })}
+          
         >
           Reset Zoom
-        </button>
+        </Button>
 
         
       </div>
