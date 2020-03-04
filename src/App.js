@@ -19,6 +19,7 @@ import fs from "fs";
 import csv from "csv-parser";
 import Overview from "./pages/Overview";
 import Analysis from "./pages/Analysis";
+import Manage from "./pages/Manage";
 import getLineGraphData from "./modifyData/getLineGraphData";
 export default class App extends React.Component {
   constructor(props) {
@@ -89,7 +90,7 @@ export default class App extends React.Component {
               title="tab2"
               panel={<Analysis data={this.state.data} />}
             />
-            <Tab id="tab3" title="tab3" panel={<H1>Hello3</H1>} />
+            <Tab id="tab3" title="tab3" panel={<Manage data={this.state.data} />} />
           </Tabs>
         </div>
       );

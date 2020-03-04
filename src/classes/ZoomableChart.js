@@ -49,8 +49,8 @@ export default class ZoomableChart extends React.Component {
                 lastDrawLocation.top
               ]
             }
-            width={500}
-            height={300}
+            width={this.props.width}
+            height={this.props.height}
           >
             <HorizontalGridLines />
 
