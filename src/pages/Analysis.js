@@ -66,7 +66,13 @@ export default class Analysis extends React.Component {
               id="soc"
               title="SOC Trends"
               panel={
-                <ZoomableChart height={600} width={800} data={this.props.data} xVar="day" yVar="pH" />
+                <ZoomableChart
+                  height={700}
+                  width={700}
+                  data={this.props.data}
+                  xVar="day"
+                  yVar="oc"
+                />
               }
             />
             <Tab
@@ -74,8 +80,6 @@ export default class Analysis extends React.Component {
               title="Radar Chart Analysis"
               panel={
                 <div className="col">
-                  
-
                   <RadarChart
                     data={[this.props.data[this.state.id - 1]]}
                     domains={[
@@ -84,28 +88,28 @@ export default class Analysis extends React.Component {
                       { name: "na_nh4", domain: [0, 40] },
                       { name: "k_nh4", domain: [0, 40] }
                     ]}
-                    height={800}
-                    width={800}
-                    margin={{ left: 60, right: 60, top: 60, bottom: 60 }}
+                    height={700}
+                    width={700}
+                    margin={{ left: 90, right: 90, top: 90, bottom: 90 }}
                   />
 
-<div className="bp3-select">
+                  <div className="bp3-select">
                     <select defaultValue={"1"} onChange={this.handleIDchange}>
                       {/* <option selected>Choose the y variable</option> */}
-                      <option value="1">day 1</option>
-                      <option value="2">day 2</option>
-                      <option value="3">day 3</option>
-                      <option value="4">day 4</option>
-                      <option value="5">day 5</option>
-                      <option value="6">day 6</option>
-                      <option value="7">day 7</option>
-                      <option value="8">day 8</option>
-                      <option value="9">day 9</option>
-                      <option value="10">day 10</option>
-                      <option value="11">day 11</option>
-                      <option value="12">day 12</option>
-                      <option value="13">day 13</option>
-                      <option value="14">day 14</option>
+                      <option value="1">January '19</option>
+                      <option value="2">February '19</option>
+                      <option value="3">March '19</option>
+                      <option value="4">April '19</option>
+                      <option value="5">May '19</option>
+                      <option value="6">June '19</option>
+                      <option value="7">July '19</option>
+                      <option value="8">August '19</option>
+                      <option value="9">September '19</option>
+                      <option value="10">October '19</option>
+                      <option value="11">November '19</option>
+                      <option value="12">December '19</option>
+                      <option value="13">January '20</option>
+                      <option value="14">February '20</option>
                     </select>
                   </div>
                 </div>
@@ -149,7 +153,7 @@ export default class Analysis extends React.Component {
                         <option value="k_nh4">k_nh4</option>
                         <option value="CECnh4">CECnh4</option>
                         <option value="CECsum">CECsum</option>
-                        <option value="pH">SOC</option>
+                        <option value="oc">OC</option>
                       </select>
                     </div>
 
@@ -167,7 +171,7 @@ export default class Analysis extends React.Component {
                         <option value="k_nh4">k_nh4</option>
                         <option value="CECnh4">CECnh4</option>
                         <option value="CECsum">CECsum</option>
-                        <option value="pH">SOC</option>
+                        <option value="oc">OC</option>
                       </select>
                     </div>
                   </div>

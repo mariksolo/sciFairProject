@@ -1,18 +1,53 @@
 {
-  "name": "socapp",
   "productName": "socapp",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/index.js",
+  "author": {
+    "name": "Mark Solomonik",
+    "email": "marik.solomonik@gmail.com",
+    "url": "http://google.com/"
+  },
+  "name": "socapp",
+  "email": "marik.solomonik@gmail.com",
+  "url": "http://google.com/",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --cache --color --ext .jsx,.js src"
+    "lint": "eslint --cache --color --ext .jsx,.js src",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
+    }
   },
   "keywords": [],
-  "author": "mariksolo",
   "license": "MIT",
   "config": {
     "forge": {
@@ -68,6 +103,8 @@
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "electron-builder": "^22.3.6",
+    "electron-builder-squirrel-windows": "^22.4.0",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",
     "eslint": "^3.19.0",

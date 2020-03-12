@@ -1,19 +1,21 @@
 .bottomRoot {
-  
+  /* background-color: #394b59 */
 }
 
 .container {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px;
+  padding: 15px;
+  
 }
 
 .graphContainer {
-    justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 .row {
   display: flex;
-  flex-direction: crow;
-  
+  flex-direction: row;
 }
 
 .col {
@@ -21,9 +23,23 @@
   flex-direction: column;
 }
 .dataTable {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .dataGraph {
-    flex-grow: 1;
+  flex-grow: 1;
 }
+
+.spinnerStyle {
+  padding-top: 100px;
+  margin-top: 100px;
+}
+/* .bp3-heading {
+  color: #182026;
+  font-weight: 600;
+  margin: 0 0 10px;
+  padding: 0;
+}
+.bp3-dark .bp3-heading {
+  color: #f5f8fa;
+} */

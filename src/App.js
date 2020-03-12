@@ -10,7 +10,8 @@ import {
   MenuItem,
   Tab,
   Tabs,
-  H1
+  H1,
+  Spinner
 } from "@blueprintjs/core";
 import * as tf from "@tensorflow/tfjs";
 require("@tensorflow/tfjs-node");
@@ -19,29 +20,70 @@ import fs from "fs";
 import csv from "csv-parser";
 import Overview from "./pages/Overview";
 import Analysis from "./pages/Analysis";
-import Manage from "./pages/Manage";
+import Manage from "./pages/LiveModel";
 import getLineGraphData from "./modifyData/getLineGraphData";
+import normalize from "./modifyData/normalize";
+import DataStats from "./classes/DataStats";
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], loadedModel: false };
+    this.state = { data: [], loadedModel: false, normedData: [] };
     let results = [];
     let stream = fs.createReadStream(__dirname + "/demoData.csv");
     stream
       .pipe(csv())
       .on("data", data => results.push(data))
       .on("end", () => {
-        // results = results.map(data => [
-        //   Number(data["pH"]),
-        //   Number(data["clay"]),
-        //   Number(data["ca_nh4"]),
-        //   Number(data["mg_nh4"]),
-        //   Number(data["na_nh4"]),
-        //   Number(data["k_nh4"]),
-        //   Number(data["CECnh4"]),
-        //   Number(data["CECsum"])
-        // ]);
+        this.setState({ data: results });
 
+        console.log("in constructor");
+        let normedResults = results.map(data => [
+          normalize(
+            Number(data["pH"]),
+            DataStats["pH"]["mean"],
+            DataStats["pH"]["sd"]
+          ),
+          normalize(
+            Number(data["clay"]),
+            DataStats["clay"]["mean"],
+            DataStats["clay"]["sd"]
+          ),
+          normalize(
+            Number(data["ca_nh4"]),
+            DataStats["ca_nh4"]["mean"],
+            DataStats["ca_nh4"]["sd"]
+          ),
+          normalize(
+            Number(data["mg_nh4"]),
+            DataStats["mg_nh4"]["mean"],
+            DataStats["mg_nh4"]["sd"]
+          ),
+          normalize(
+            Number(data["na_nh4"]),
+            DataStats["na_nh4"]["mean"],
+            DataStats["na_nh4"]["sd"]
+          ),
+          normalize(
+            Number(data["k_nh4"]),
+            DataStats["k_nh4"]["mean"],
+            DataStats["k_nh4"]["sd"]
+          ),
+          normalize(
+            Number(data["CECnh4"]),
+            DataStats["CECnh4"]["mean"],
+            DataStats["CECnh4"]["sd"]
+          ),
+          normalize(
+            Number(data["CECsum"]),
+            DataStats["CECsum"]["mean"],
+            DataStats["CECsum"]["sd"]
+          )
+        ]);
+
+        this.setState({ normedData: normedResults });
+        console.log(this.state.data);
+        console.log(this.state.normedData);
         // for (let i = 0; i < results.length; i++) {
 
         //   console.log(
@@ -50,25 +92,34 @@ export default class App extends React.Component {
         //       .arraySync()
         //   );
         // }
-        this.setState({ data: results });
-        
       });
     // stream.close();
-    let t = [{test: 1, test2: 2, test3: 3}, {test: 1.1, test2: 2.1, test3: 3.1, }]
-    
   }
 
   async componentDidMount() {
     console.log("component did mount");
+
     try {
       const model = await tf.loadLayersModel(
         "file://" + __dirname + "/model.json"
       );
-      let sample = [123, 13, 0.5, 1233, 123, 123, 123, 123];
-      const predictions = model
-        .predict(tf.tensor(sample, [1, sample.length]))
-        .arraySync();
-      this.setState({ loadedModel: true });
+      for (let i = 0; i < this.state.normedData.length; i++) {
+        console.log("result");
+        console.log(this.state.normedData[i]);
+
+        this.state.data[i]["oc"] = model
+          .predict(
+            tf.tensor(this.state.normedData[i], [
+              1,
+              this.state.normedData[i].length
+            ])
+          )
+          .arraySync();
+
+        console.log(this.state.data);
+      }
+
+      this.setState({ loadedModel: model });
       console.log("loadedModel is true");
     } catch (error) {
       console.error(error);
@@ -78,24 +129,36 @@ export default class App extends React.Component {
   render() {
     if (this.state.loadedModel) {
       return (
-        <div id="Layout" className="bottomRoot">
+        <div id="Layout" c>
           <Tabs>
             <Tab
               id="tab1"
-              title="tab1"
+              title="Overview"
               panel={<Overview data={this.state.data} />}
             />
             <Tab
               id="tab2"
-              title="tab2"
+              title="Analysis"
               panel={<Analysis data={this.state.data} />}
             />
-            <Tab id="tab3" title="tab3" panel={<Manage data={this.state.data} />} />
+            <Tab
+              id="tab3"
+              title="Live Calculation"
+              panel={
+                <Manage data={this.state.data} model={this.state.loadedModel} />
+              }
+            />
           </Tabs>
         </div>
       );
     } else {
-      return <h1>loading</h1>;
+      
+      return (
+        <div className="container">
+        
+          <Spinner className="spinnerStyle" size={100}/>
+        </div>
+      );
     }
   }
 }

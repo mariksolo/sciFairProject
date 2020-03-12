@@ -29,11 +29,11 @@ const createWindow = async () => {
 
   // Open the DevTools.
 
-  if (isDevMode) {
-    // nah
-    await installExtension(REACT_DEVELOPER_TOOLS);
-    mainWindow.webContents.openDevTools();
-  }
+  // if (isDevMode) {
+  //   // nah
+  //   await installExtension(REACT_DEVELOPER_TOOLS);
+  //   mainWindow.webContents.openDevTools();
+  // }
 
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {
